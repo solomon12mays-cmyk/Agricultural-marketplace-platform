@@ -1,0 +1,12 @@
+node_modules/
+frontend/dist/
+frontend/coverage/
+backend/target/
+.env
+.idea/
+.vscode/
+*.log
+
+# Python virtual environment
+.venv/
+frontend/tsconfig.tsbuildinfo
