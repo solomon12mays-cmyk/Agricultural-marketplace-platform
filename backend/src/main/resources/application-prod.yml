@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    default-schema: marketplace
+    schemas: marketplace
+    locations: classpath:db/migration,classpath:db/migration-postgres
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        default_schema: marketplace
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:localhost}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+
+logging:
+  level:
+    com.agricultural.marketplace: INFO
+    org.springframework.web: WARN
+
+app:
+  otp:
+    sms-provider: ${APP_OTP_SMS_PROVIDER:unconfigured}

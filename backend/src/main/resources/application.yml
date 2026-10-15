@@ -3,6 +3,7 @@ server:
   shutdown: graceful
   servlet:
     session:
+      timeout: 2m
       cookie:
         http-only: true
         same-site: lax
@@ -15,7 +16,6 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:h2:mem:agri_marketplace;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE;DEFAULT_NULL_ORDERING=HIGH}
     username: ${SPRING_DATASOURCE_USERNAME:sa}
     password: ${SPRING_DATASOURCE_PASSWORD:}
-    driver-class-name: org.h2.Driver
   data:
     redis:
       host: ${SPRING_DATA_REDIS_HOST:localhost}
@@ -23,13 +23,15 @@ spring:
   flyway:
     default-schema: marketplace
     schemas: marketplace
+    # The postgres/ subfolder holds PostgreSQL-only enforcement objects and is
+    # added by the dev/prod profiles; H2-based tests stay on the portable set.
+    locations: classpath:db/migration
   jpa:
     open-in-view: false
     hibernate:
       ddl-auto: validate
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
         default_schema: marketplace
   lifecycle:
     timeout-per-shutdown-phase: 20s
@@ -58,5 +60,19 @@ app:
   security:
     jwt:
       jwk-set-uri: ${APP_SECURITY_JWT_JWK_SET_URI:}
+    pii-data-key: ${APP_PII_ENCRYPTION_KEY:}
+    pii-data-key-id: ${APP_PII_ENCRYPTION_KEY_ID:}
+    organization-data-key: ${ORG_DATA_ENCRYPTION_KEY:}
+    organization-data-key-id: ${ORG_DATA_ENCRYPTION_KEY_ID:}
+  ussd:
+    callback-token: ${USSD_CALLBACK_TOKEN:}
+  otp:
+    sms-provider: ${APP_OTP_SMS_PROVIDER:mock}
+    length: ${APP_OTP_LENGTH:6}
+    expiration-seconds: ${APP_OTP_EXPIRATION_SECONDS:300}
+    resend-cooldown-seconds: ${APP_OTP_RESEND_COOLDOWN_SECONDS:60}
+    max-attempts: ${APP_OTP_MAX_ATTEMPTS:5}
+    max-requests-per-hour: ${APP_OTP_MAX_REQUESTS_PER_HOUR:5}
+    mock-log-code: ${APP_OTP_MOCK_LOG_CODE:false}
   cors:
     allowed-origins: ${APP_CORS_ALLOWED_ORIGINS:http://localhost:5173,http://localhost:5174}

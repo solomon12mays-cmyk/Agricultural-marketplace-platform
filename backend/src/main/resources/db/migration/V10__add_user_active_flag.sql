@@ -1,1 +1,0 @@
-ALTER TABLE marketplace.user_accounts ADD COLUMN IF NOT EXISTS active BOOLEAN NOT NULL DEFAULT TRUE;

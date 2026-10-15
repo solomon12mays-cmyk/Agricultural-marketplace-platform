@@ -1,0 +1,13 @@
+/**
+ * Payment Summary — payment feature component.
+ *
+ * TODO: define props and render real content.
+ */
+export function PaymentSummary() {
+  return (
+    <div className="muted-card">
+      <p className="text-sm font-semibold text-brand-deep">Payment Summary</p>
+      <p className="mt-1 text-xs text-slate-500">TODO: implement the Payment Summary component.</p>
+    </div>
+  );
+}
